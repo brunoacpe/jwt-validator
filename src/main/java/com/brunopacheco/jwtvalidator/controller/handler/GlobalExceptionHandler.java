@@ -4,7 +4,7 @@ import com.brunopacheco.jwtvalidator.exception.InvalidJwtException;
 import com.brunopacheco.jwtvalidator.logs.Constants;
 import com.brunopacheco.jwtvalidator.utils.BooleanTranslator;
 import net.logstash.logback.argument.StructuredArguments;
-import org.apache.coyote.BadRequestException;
+import com.brunopacheco.jwtvalidator.exception.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
      * O desafio não pede status HTTP customizado.
      */
     private ResponseEntity<String> falseResponse(Exception ex) {
-        
+
         LOGGER.error(EXCEPTION_HANDLER_ERROR_MESSAGE,
                 StructuredArguments.kv(Constants.LogKeys.EXCEPTION_MESSAGE_LOG_KEY, ex.getMessage())
         );
