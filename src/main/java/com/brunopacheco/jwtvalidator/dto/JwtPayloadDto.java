@@ -26,6 +26,5 @@ public record JwtPayloadDto(
                 regexp = "^[0-9]+$",
                 message = "Seed must contain only digits"
         )
-        String seed
-
+        Integer seed
 ) {}
