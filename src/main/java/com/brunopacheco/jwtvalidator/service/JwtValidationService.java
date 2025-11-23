@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class JwtValidationService implements JwtValidationUseCase {
 
     private final JwtParser jwtParser;
-    
+
     @Override
     public String validateJwt(String requestDto) {
         JwtPayloadDto payloadDto = jwtParser.parse(requestDto);
