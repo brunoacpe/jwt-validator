@@ -1,0 +1,37 @@
+<configuration>
+
+    <!-- Importa propriedades do application.yml -->
+    <springProperty scope="context" name="appName" source="app.name"/>
+    <springProperty scope="context" name="containerType" source="app.infrastructure"/>
+
+    <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+
+            <providers>
+
+                <timestamp />
+                <logLevel />
+                <threadName />
+                <loggerName />
+                <message />
+                <arguments />
+                <mdc />
+
+                <provider class="net.logstash.logback.composite.GlobalCustomFieldsJsonProvider">
+                    <customFields>
+                        {
+                        "app": "${appName}",
+                        "container_type": "${containerType}"
+                        }
+                    </customFields>
+                </provider>
+
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="JSON" />
+    </root>
+
+</configuration>
