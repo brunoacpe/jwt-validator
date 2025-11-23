@@ -6,6 +6,7 @@ import com.brunopacheco.jwtvalidator.utils.BooleanTranslator;
 import com.brunopacheco.jwtvalidator.utils.JwtParser;
 import com.brunopacheco.jwtvalidator.utils.ValidatorUtil;
 import com.brunopacheco.jwtvalidator.validators.SeedValidator;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
