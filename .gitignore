@@ -34,6 +34,17 @@ build/
 ###MAC OS ###
 .DS_Store
 
-#Terraform
-/terraform/.terraform
-/terraform/.terraform.lock.hcl
+# Terraform state
+*.tfstate
+*.tfstate.*
+terraform.tfstate
+terraform.tfstate.backup
+
+# Terraform dirs
+.cruft/
+.terraform/
+.terraform.lock.hcl
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
