@@ -1,15 +1,14 @@
-# Cluster ECS
 resource "aws_ecs_cluster" "cluster" {
   name = "${var.project_name}-cluster"
 }
 
-# CloudWatch Log Group
+
 resource "aws_cloudwatch_log_group" "app_logs" {
   name              = "/ecs/${var.project_name}"
   retention_in_days = 7
 }
 
-# IAM Role para execução da task (puxar imagem ECR + logs)
+
 resource "aws_iam_role" "task_execution_role" {
   name = "${var.project_name}-task-execution-role"
 
@@ -32,7 +31,7 @@ resource "aws_iam_role_policy_attachment" "task_execution_role_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# Task Definition Fargate
+
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.project_name}-task"
   network_mode             = "awsvpc"
@@ -64,7 +63,7 @@ resource "aws_ecs_task_definition" "task" {
   ])
 }
 
-# Service Fargate
+
 resource "aws_ecs_service" "service" {
   name            = "${var.project_name}-service"
   cluster         = aws_ecs_cluster.cluster.id

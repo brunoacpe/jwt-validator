@@ -1,9 +1,9 @@
-# VPC default
+
 data "aws_vpc" "default" {
   default = true
 }
 
-# Todas as subnets da VPC default
+
 data "aws_subnets" "default" {
   filter {
     name   = "vpc-id"
@@ -11,7 +11,7 @@ data "aws_subnets" "default" {
   }
 }
 
-# Security Group do ALB (publico)
+
 resource "aws_security_group" "alb_sg" {
   name        = "${var.project_name}-alb-sg"
   description = "Security group do ALB"
@@ -25,7 +25,7 @@ resource "aws_security_group" "alb_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Se quiser HTTPS, adicionar aqui porta 443
+
 
   egress {
     description = "Saida irrestrita"
@@ -36,7 +36,7 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 
-# Security Group das tasks ECS (só recebe do ALB)
+
 resource "aws_security_group" "ecs_tasks" {
   name        = "${var.project_name}-ecs-sg"
   description = "Security group das tasks Fargate"
@@ -59,7 +59,7 @@ resource "aws_security_group" "ecs_tasks" {
   }
 }
 
-# Application Load Balancer
+
 resource "aws_lb" "app_alb" {
   name               = "${var.project_name}-alb"
   load_balancer_type = "application"
@@ -68,7 +68,7 @@ resource "aws_lb" "app_alb" {
   subnets            = data.aws_subnets.default.ids
 }
 
-# Target Group para ECS Fargate (target_type = ip)
+
 resource "aws_lb_target_group" "app_tg" {
   name        = "${var.project_name}-tg"
   port        = var.container_port
@@ -88,7 +88,7 @@ resource "aws_lb_target_group" "app_tg" {
   }
 }
 
-# Listener HTTP (porta 80)
+
 resource "aws_lb_listener" "http_listener" {
   load_balancer_arn = aws_lb.app_alb.arn
   port              = 80
