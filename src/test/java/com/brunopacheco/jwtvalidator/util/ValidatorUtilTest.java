@@ -20,9 +20,6 @@ class ValidatorUtilTest {
         validatorUtil = new ValidatorUtil(validator);
     }
 
-    // -----------------------------------------------------
-    // VALID PAYLOAD
-    // -----------------------------------------------------
 
     @Test
     void shouldPassWhenObjectIsValid() {
@@ -31,9 +28,6 @@ class ValidatorUtilTest {
         assertDoesNotThrow(() -> validatorUtil.validate(dto));
     }
 
-    // -----------------------------------------------------
-    // NAME VALIDATION
-    // -----------------------------------------------------
 
 
     @Test
@@ -74,9 +68,6 @@ class ValidatorUtilTest {
         assertEquals("Name must be at most 256 characters", ex.getMessage());
     }
 
-    // -----------------------------------------------------
-    // ROLE VALIDATION
-    // -----------------------------------------------------
 
     @Test
     void shouldThrowBadRequestWhenRoleIsNull() {
@@ -90,9 +81,6 @@ class ValidatorUtilTest {
         assertEquals("Role cannot be null", ex.getMessage());
     }
 
-    // -----------------------------------------------------
-    // SEED VALIDATION
-    // -----------------------------------------------------
 
     @Test
     void shouldThrowBadRequestWhenSeedIsNotNumeric() {
@@ -133,9 +121,6 @@ class ValidatorUtilTest {
         assertEquals("Seed cannot be blank", ex.getMessage());
     }
 
-    // -----------------------------------------------------
-    // MULTIPLE ERRORS
-    // -----------------------------------------------------
 
     @Test
     void shouldThrowOnlyTheFirstViolationWhenMultipleErrorsExist() {

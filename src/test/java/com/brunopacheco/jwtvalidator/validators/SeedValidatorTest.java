@@ -31,7 +31,7 @@ class SeedValidatorTest {
     void shouldThrowWhenSeedIsNotPrime() {
         BadRequestException ex = assertThrows(
                 BadRequestException.class,
-                () -> seedValidator.validate("10")  // 10 não é primo
+                () -> seedValidator.validate("10")
         );
 
         assertEquals("Seed must be a prime number", ex.getMessage());

@@ -11,8 +11,6 @@ public class Fixtures {
     public static final String INVALID_JWT_TOKEN = "abc.def.ghi";
     public static final String VALID_TOKEN_BOOLEAN_RESPONSE = "verdadeiro";
     public static final String INVALID_TOKEN_BOOLEAN_RESPONSE = "falso";
-    public static final String INVALID_JWT_TOKEN_WITH_MORE_THAN_3_CLAIMS = "eyJhbGciOiJIUzI1NiJ9.eyJOYW1lIjoiVG9uaW5obyIsIlJvbGUiOiJBZG1pbiIsIlNlZWQiOiI3ODQxIiwiRXh0cmEiOiJ4In0.qGQ_SxE3kZr9V9suYQ1kS2HPyPzHeVrzYJ2gDIh5xp4";
-    public static final String INVALID_JWT_TOKEN_NULL_CLAIM_VALUE = "eyJhbGciOiJIUzI1NiJ9.eyJOYW1lIjoiVG9uaW5obyIsIlJvbGUiOiJBZG1pbiIsIlNlZWQiOm51bGx9.eJFgFU2pThumbImHVsv7oFF5fHkPq1whZyurUQNWx9U";
 
     private static final Algorithm ALG = Algorithm.HMAC256("secret");
 
@@ -37,7 +35,7 @@ public class Fixtures {
             .withClaim("Name", "John")
             .withClaim("Role", "Admin")
             .withClaim("Seed", "7841")
-            .withClaim("Extra", "X")     // extra claim
+            .withClaim("Extra", "X")
             .sign(ALG);
 
     public static final String MISSING_ROLE = JWT.create()
@@ -51,27 +49,16 @@ public class Fixtures {
             .withClaim("Seed", "15")
             .sign(ALG);
 
-    public static final String INVALID_CLAIM_NAME = JWT.create()
-            .withClaim("Name", "John")
-            .withClaim("Role", "Admin")
-            .withClaim("SeedX", "7841") // errado
-            .sign(ALG);
-
-    public static final String NULL_CLAIM_VALUE = JWT.create()
-            .withClaim("Name", (String) null)
-            .withClaim("Role", "Admin")
-            .withClaim("Seed", "7841")
-            .sign(ALG);
 
     public static final String CLAIM_NULL = JWT.create()
             .withClaim("Name", "Toninho")
             .withClaim("Role", "Admin")
-            .withClaim("Seed", (String) null) // seed null
+            .withClaim("Seed", (String) null)
             .sign(ALG);
 
     public static final String INVALID_ROLE = JWT.create()
             .withClaim("Name", "Toninho")
-            .withClaim("Role", "InvalidRole") // não existe no enum
+            .withClaim("Role", "InvalidRole")
             .withClaim("Seed", "7841")
             .sign(ALG);
 
@@ -96,14 +83,6 @@ public class Fixtures {
             return new JwtPayloadDto("Maria Silva", RoleEnum.ADMIN, "7879");
         }
 
-        public static JwtPayloadDto validMemberFixture() {
-            return new JwtPayloadDto("Joao Pereira", RoleEnum.MEMBER, "17");
-        }
-
-        public static JwtPayloadDto validExternalFixture() {
-            return new JwtPayloadDto("Ana Costa", RoleEnum.EXTERNAL, "11");
-        }
-
 
         public static JwtPayloadDto nameBlankFixture() {
             return new JwtPayloadDto(" ", RoleEnum.ADMIN, "11");
@@ -114,7 +93,7 @@ public class Fixtures {
         }
 
         public static JwtPayloadDto nameTooLongFixture() {
-            String longName = "A".repeat(300); // >256 chars
+            String longName = "A".repeat(300);
             return new JwtPayloadDto(longName, RoleEnum.MEMBER, "11");
         }
 
