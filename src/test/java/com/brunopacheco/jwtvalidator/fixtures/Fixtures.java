@@ -22,6 +22,17 @@ public class Fixtures {
             .withClaim("Seed", "7841")
             .sign(ALG);
 
+    public static final String INVALID_NAME = JWT.create()
+            .withClaim("Name", "Toninho Araujo")
+            .withClaim("Role", "Admin")
+            .withClaim("Seed", "170626")
+            .sign(ALG);
+
+    public static final String NULL_SEED = JWT.create()
+            .withClaim("Name", "Toninho Araujo")
+            .withClaim("Role", "Admin")
+            .sign(ALG);
+
     public static final String EXTRA_CLAIM = JWT.create()
             .withClaim("Name", "John")
             .withClaim("Role", "Admin")
@@ -32,6 +43,12 @@ public class Fixtures {
     public static final String MISSING_ROLE = JWT.create()
             .withClaim("Name", "John")
             .withClaim("Seed", "7841")
+            .sign(ALG);
+
+    public static final String NON_PRIME_SEED = JWT.create()
+            .withClaim("Name", "Toninho Araujo")
+            .withClaim("Role", "Admin")
+            .withClaim("Seed", "15")
             .sign(ALG);
 
     public static final String INVALID_CLAIM_NAME = JWT.create()
@@ -87,9 +104,6 @@ public class Fixtures {
             return new JwtPayloadDto("Ana Costa", RoleEnum.EXTERNAL, "11");
         }
 
-        // -------------------------------
-        // INVALID NAME FIXTURES
-        // -------------------------------
 
         public static JwtPayloadDto nameBlankFixture() {
             return new JwtPayloadDto(" ", RoleEnum.ADMIN, "11");
@@ -104,17 +118,11 @@ public class Fixtures {
             return new JwtPayloadDto(longName, RoleEnum.MEMBER, "11");
         }
 
-        // -------------------------------
-        // INVALID ROLE FIXTURES
-        // -------------------------------
 
         public static JwtPayloadDto roleNullFixture() {
             return new JwtPayloadDto("Joao", null, "17");
         }
 
-        // -------------------------------
-        // INVALID SEED FIXTURES
-        // -------------------------------
 
         public static JwtPayloadDto seedNotNumericFixture() {
             return new JwtPayloadDto("Joao", RoleEnum.EXTERNAL, "abc123");
@@ -128,15 +136,12 @@ public class Fixtures {
             return new JwtPayloadDto("Joao", RoleEnum.EXTERNAL, null);
         }
 
-        // -------------------------------
-        // MULTIPLE ERRORS (for iterator tests)
-        // -------------------------------
 
         public static JwtPayloadDto multipleInvalidFieldsFixture() {
             return new JwtPayloadDto(
-                    "Joao123",   // inválido: contém números
-                    null,        // inválido: null
-                    "abc"        // inválido: contém letras
+                    "Joao123",
+                    null,
+                    "abc"
             );
         }
 
