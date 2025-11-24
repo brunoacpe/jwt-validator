@@ -33,3 +33,7 @@ build/
 
 ###MAC OS ###
 .DS_Store
+
+#Terraform
+/terraform/.terraform
+/terraform/.terraform.lock.hcl
