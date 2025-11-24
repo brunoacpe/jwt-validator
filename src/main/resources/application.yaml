@@ -5,3 +5,9 @@ spring:
 app:
   name: jwt-validator
   infrastructure: ecs-fargate
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
