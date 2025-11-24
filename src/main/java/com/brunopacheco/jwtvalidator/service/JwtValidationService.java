@@ -2,11 +2,10 @@ package com.brunopacheco.jwtvalidator.service;
 
 import com.brunopacheco.jwtvalidator.dto.JwtPayloadDto;
 import com.brunopacheco.jwtvalidator.usecase.JwtValidationUseCase;
-import com.brunopacheco.jwtvalidator.utils.BooleanTranslator;
-import com.brunopacheco.jwtvalidator.utils.JwtParser;
-import com.brunopacheco.jwtvalidator.utils.ValidatorUtil;
+import com.brunopacheco.jwtvalidator.util.BooleanTranslator;
+import com.brunopacheco.jwtvalidator.util.JwtParser;
+import com.brunopacheco.jwtvalidator.util.ValidatorUtil;
 import com.brunopacheco.jwtvalidator.validators.SeedValidator;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

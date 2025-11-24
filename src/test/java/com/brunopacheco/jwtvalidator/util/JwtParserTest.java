@@ -1,4 +1,4 @@
-package com.brunopacheco.jwtvalidator.utils;
+package com.brunopacheco.jwtvalidator.util;
 
 import com.brunopacheco.jwtvalidator.dto.JwtPayloadDto;
 import com.brunopacheco.jwtvalidator.enums.RoleEnum;

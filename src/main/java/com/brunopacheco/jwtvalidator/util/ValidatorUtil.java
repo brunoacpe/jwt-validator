@@ -1,4 +1,4 @@
-package com.brunopacheco.jwtvalidator.utils;
+package com.brunopacheco.jwtvalidator.util;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;

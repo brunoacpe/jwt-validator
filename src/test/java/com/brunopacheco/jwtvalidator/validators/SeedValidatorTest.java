@@ -14,7 +14,7 @@ class SeedValidatorTest {
     void setup() {
         seedValidator = new SeedValidator();
     }
-    
+
 
     @Test
     void shouldPassWhenSeedIsPrime() {

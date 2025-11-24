@@ -2,7 +2,7 @@ package com.brunopacheco.jwtvalidator.controller.handler;
 
 import com.brunopacheco.jwtvalidator.exception.InvalidJwtException;
 import com.brunopacheco.jwtvalidator.logs.Constants;
-import com.brunopacheco.jwtvalidator.utils.BooleanTranslator;
+import com.brunopacheco.jwtvalidator.util.BooleanTranslator;
 import net.logstash.logback.argument.StructuredArguments;
 import com.brunopacheco.jwtvalidator.exception.BadRequestException;
 import org.slf4j.Logger;

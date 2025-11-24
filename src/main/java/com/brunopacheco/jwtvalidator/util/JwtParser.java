@@ -1,4 +1,4 @@
-package com.brunopacheco.jwtvalidator.utils;
+package com.brunopacheco.jwtvalidator.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
