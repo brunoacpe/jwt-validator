@@ -85,6 +85,69 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+
+				<executions>
+					<!-- Gera o report -->
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/brunopacheco/jwtvalidator/exception/**</exclude>
+								<exclude>com/brunopacheco/jwtvalidator/enums/**</exclude>
+								<exclude>com/brunopacheco/jwtvalidator/logs/**</exclude>
+								<exclude>com/brunopacheco/jwtvalidator/JwtValidatorApplication.class</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+
+					<!-- Regras para falhar se cobertura for baixa -->
+					<execution>
+						<id>check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<!-- mínima cobertura de 80% -->
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.95</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+
+							<!-- exclusões também na regra -->
+							<excludes>
+								<exclude>com/brunopacheco/jwtvalidator/exception/**</exclude>
+								<exclude>com/brunopacheco/jwtvalidator/enums/**</exclude>
+								<exclude>com/brunopacheco/jwtvalidator/logs/**</exclude>
+								<exclude>com/brunopacheco/jwtvalidator/JwtValidatorApplication.class</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
