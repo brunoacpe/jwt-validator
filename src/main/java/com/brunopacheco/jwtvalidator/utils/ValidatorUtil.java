@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import com.brunopacheco.jwtvalidator.exception.BadRequestException;
 import java.util.Set;
-
 @Component
 @RequiredArgsConstructor
 public class ValidatorUtil {
@@ -26,3 +25,4 @@ public class ValidatorUtil {
         }
     }
 }
+

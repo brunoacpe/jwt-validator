@@ -4,11 +4,13 @@ import org.springframework.stereotype.Component;
 import com.brunopacheco.jwtvalidator.exception.BadRequestException;
 
 @Component
-public class SeedValidator implements Validator<Integer> {
+public class SeedValidator implements Validator<String> {
 
     @Override
-    public void validate(Integer seed) {
-        if (!isPrime(seed)) {
+    public void validate(String seed) {
+        int convertedSeed = Integer.parseInt(seed);
+
+        if (!isPrime(convertedSeed)) {
             throw new BadRequestException("Seed must be a prime number");
         }
     }

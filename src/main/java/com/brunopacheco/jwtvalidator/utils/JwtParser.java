@@ -3,33 +3,64 @@ package com.brunopacheco.jwtvalidator.utils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.brunopacheco.jwtvalidator.dto.JwtPayloadDto;
+import com.brunopacheco.jwtvalidator.enums.ClaimsEnum;
+import com.brunopacheco.jwtvalidator.enums.RoleEnum;
 import com.brunopacheco.jwtvalidator.exception.InvalidJwtException;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Component
 public class JwtParser {
-    private JwtParser(){}
 
     public JwtPayloadDto parse(String jwt) {
         try {
             DecodedJWT decoded = JWT.decode(jwt);
 
-            if (decoded.getClaims().size() != 3) {
-                throw new InvalidJwtException("Token must contain exactly 3 claims");
-            }
+            validateClaims(decoded);
 
-            String name = decoded.getClaim("Name").asString();
-            String role = decoded.getClaim("Role").asString();
-            Integer seed = decoded.getClaim("Seed").asInt();
+            String name = decoded.getClaim(ClaimsEnum.NAME.getKey()).asString();
+            String roleString = decoded.getClaim(ClaimsEnum.ROLE.getKey()).asString();
+            String seed = decoded.getClaim(ClaimsEnum.SEED.getKey()).asString();
 
-            if (name == null || role == null || seed == null) {
-                throw new InvalidJwtException("Missing required claims");
-            }
+            validateNullClaims(name, seed, roleString);
+
+            RoleEnum role = RoleEnum.fromJwtValue(roleString);
 
             return new JwtPayloadDto(name, role, seed);
 
-        } catch (Exception e) {
+        } catch (InvalidJwtException e) {
+            throw e;
+        }
+        catch (Exception e) {
             throw new InvalidJwtException("Malformed or invalid JWT: " + e.getMessage());
+        }
+    }
+
+
+    private void validateClaims(DecodedJWT decoded) {
+        Map<String, ?> claims = decoded.getClaims();
+        Set<String> jwtKeys = claims.keySet();
+        Set<String> validKeys = ClaimsEnum.validKeys();
+
+        if (!jwtKeys.containsAll(validKeys)) {
+            throw new InvalidJwtException("Token is missing required claims");
+        }
+
+
+        if (!validKeys.containsAll(jwtKeys)) {
+            throw new InvalidJwtException("Token contains invalid or unexpected claims");
+        }
+    }
+
+    private void validateNullClaims(String... claims) {
+        for (String claim : claims) {
+            if (claim == null)
+                throw new InvalidJwtException("Missing required claims");
         }
     }
 }

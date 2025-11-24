@@ -1,6 +1,7 @@
 package com.brunopacheco.jwtvalidator.service;
 
 import com.brunopacheco.jwtvalidator.dto.JwtPayloadDto;
+import com.brunopacheco.jwtvalidator.enums.RoleEnum;
 import com.brunopacheco.jwtvalidator.exception.BadRequestException;
 import com.brunopacheco.jwtvalidator.fixtures.Fixtures;
 import com.brunopacheco.jwtvalidator.utils.JwtParser;
@@ -45,7 +46,7 @@ class JwtValidationServiceTest {
 
         verify(jwtParser).parse(jwt);
         verify(validatorUtil).validate(payload);
-        verify(seedValidator).validate(7841);
+        verify(seedValidator).validate("7841");
     }
 
     @Test
@@ -66,7 +67,7 @@ class JwtValidationServiceTest {
     void shouldThrowExceptionWhenValidatorUtilFails() {
         String jwt = Fixtures.VALID_JWT_TOKEN;
 
-        JwtPayloadDto payload = new JwtPayloadDto("Name", "Admin", 11);
+        JwtPayloadDto payload = new JwtPayloadDto("Name", RoleEnum.ADMIN, "11");
 
         when(jwtParser.parse(jwt)).thenReturn(payload);
         doThrow(new BadRequestException("jakarta failed"))
@@ -90,7 +91,7 @@ class JwtValidationServiceTest {
 
         when(jwtParser.parse(jwt)).thenReturn(payload);
         doThrow(new BadRequestException("not prime"))
-                .when(seedValidator).validate(10);
+                .when(seedValidator).validate("10");
 
         BadRequestException ex =
                 assertThrows(BadRequestException.class, () -> service.validateJwt(jwt));
@@ -99,6 +100,6 @@ class JwtValidationServiceTest {
 
         verify(jwtParser).parse(jwt);
         verify(validatorUtil).validate(payload);
-        verify(seedValidator).validate(10);
+        verify(seedValidator).validate("10");
     }
 }
