@@ -52,7 +52,6 @@ public class Fixtures {
             .withClaim("Seed", (String) null) // seed null
             .sign(ALG);
 
-    // 5. TOKEN COM ROLE INVÁLIDA
     public static final String INVALID_ROLE = JWT.create()
             .withClaim("Name", "Toninho")
             .withClaim("Role", "InvalidRole") // não existe no enum
@@ -74,6 +73,71 @@ public class Fixtures {
 
         public static JwtPayloadDto invalidJwtPayloadDtoSeedIsNotAPrimeNumberFixture() {
             return new JwtPayloadDto("Name", RoleEnum.ADMIN, "10");
+        }
+
+        public static JwtPayloadDto validAdminFixture() {
+            return new JwtPayloadDto("Maria Silva", RoleEnum.ADMIN, "7879");
+        }
+
+        public static JwtPayloadDto validMemberFixture() {
+            return new JwtPayloadDto("Joao Pereira", RoleEnum.MEMBER, "17");
+        }
+
+        public static JwtPayloadDto validExternalFixture() {
+            return new JwtPayloadDto("Ana Costa", RoleEnum.EXTERNAL, "11");
+        }
+
+        // -------------------------------
+        // INVALID NAME FIXTURES
+        // -------------------------------
+
+        public static JwtPayloadDto nameBlankFixture() {
+            return new JwtPayloadDto(" ", RoleEnum.ADMIN, "11");
+        }
+
+        public static JwtPayloadDto nameWithNumbersFixture() {
+            return new JwtPayloadDto("Joao123", RoleEnum.MEMBER, "17");
+        }
+
+        public static JwtPayloadDto nameTooLongFixture() {
+            String longName = "A".repeat(300); // >256 chars
+            return new JwtPayloadDto(longName, RoleEnum.MEMBER, "11");
+        }
+
+        // -------------------------------
+        // INVALID ROLE FIXTURES
+        // -------------------------------
+
+        public static JwtPayloadDto roleNullFixture() {
+            return new JwtPayloadDto("Joao", null, "17");
+        }
+
+        // -------------------------------
+        // INVALID SEED FIXTURES
+        // -------------------------------
+
+        public static JwtPayloadDto seedNotNumericFixture() {
+            return new JwtPayloadDto("Joao", RoleEnum.EXTERNAL, "abc123");
+        }
+
+        public static JwtPayloadDto seedBlankFixture() {
+            return new JwtPayloadDto("Joao", RoleEnum.EXTERNAL, "");
+        }
+
+        public static JwtPayloadDto seedNullFixture() {
+            return new JwtPayloadDto("Joao", RoleEnum.EXTERNAL, null);
+        }
+
+        // -------------------------------
+        // MULTIPLE ERRORS (for iterator tests)
+        // -------------------------------
+
+        public static JwtPayloadDto multipleInvalidFieldsFixture() {
+            return new JwtPayloadDto(
+                    "Joao123",   // inválido: contém números
+                    null,        // inválido: null
+                    "abc"        // inválido: contém letras
+            );
         }
 
     }
