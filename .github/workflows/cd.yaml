@@ -11,7 +11,6 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy to AWS
     runs-on: ubuntu-latest
 
     env:
@@ -20,29 +19,34 @@ jobs:
       ECR_REPOSITORY: jwt-validator-repo
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # -----------------------------------------------------
-      # 1. Configurar credenciais AWS via OIDC
-      # -----------------------------------------------------
-      - name: Configure AWS Credentials
+      # AWS credentials via OIDC
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: arn:aws:iam::442956083887:role/GitHubActionsDeployRole
-          role-session-name: github-action-deploy
+          role-session-name: deploy-session
 
-      # -----------------------------------------------------
-      # 2. Login no Amazon ECR
-      # -----------------------------------------------------
+      # Login ECR
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # -----------------------------------------------------
-      # 3. Build multi-arch + Push para ECR
-      # -----------------------------------------------------
+      # Install OpenTofu
+      - name: Install OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.7.0
+
+      # Create ONLY the ECR repository first
+      - name: Create ECR before pushing image
+        working-directory: infrastructure
+        run: tofu apply -target=aws_ecr_repository.jwt_validator -auto-approve
+
+      # Docker buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -52,24 +56,18 @@ jobs:
 
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t "$IMAGE" \
+            --tag "$IMAGE" \
             --push \
             .
 
           echo "IMAGE_URL=$IMAGE" >> $GITHUB_ENV
 
-      # -----------------------------------------------------
-      # 4. Rodar Terraform (OpenTofu)
-      # -----------------------------------------------------
-      - name: Install OpenTofu
-        uses: opentofu/setup-opentofu@v1
-        with:
-          tofu_version: 1.7.0
-
+      # Write dynamic image into Terraform variables
       - name: Write image URL to TF vars
         run: |
           echo "image_url=\"${IMAGE_URL}\"" > infrastructure/auto.tfvars
 
+      # Terraform init + plan + apply
       - name: Terraform Init
         working-directory: infrastructure
         run: tofu init
