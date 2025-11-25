@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "Itau challenge backend",
+    "description": "",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST - Validate JWT Token",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "{{http-prefix}}{{locahost-prefix}}{{localhost-port}}/api/v1/validate/jwt",
+          "protocol": "",
+          "host": [
+            "{{http-prefix}}{{locahost-prefix}}{{localhost-port}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "validate",
+            "jwt"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "eyJhbGciOiJIUzI1NiJ9.eyJOYW1lIjoiVG9uaW5obyBBcmF1am8iLCJSb2xlIjoiQWRtaW4iLCJTZWVkIjoiNzg0MSJ9.2sy5IzDmC_1oGHd5Jq9sSHH8Bt6NzfZhV1Bu5-WiBmA",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "POST - ALB Dns",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://jwt-validator-alb-2607046.sa-east-1.elb.amazonaws.com/api/v1/validate/jwt",
+          "protocol": "http",
+          "host": [
+            "jwt-validator-alb-2607046",
+            "sa-east-1",
+            "elb",
+            "amazonaws",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "validate",
+            "jwt"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "eyJhbGciOiJIUzI1NiJ9.eyJOYW1lIjoiVG9uaW5obyBBcmF1am8iLCJSb2xlIjoiQWRtaW4iLCJTZWVkIjoiNzg0MSJ9.2sy5IzDmC_1oGHd5Jq9sSHH8Bt6NzfZhV1Bu5-WiBmA",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "http-prefix",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "locahost-prefix",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "localhost-port",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
