@@ -41,7 +41,12 @@ jobs:
         with:
           tofu_version: 1.7.0
 
-      # Create ONLY the ECR repository first
+      # 1️⃣ FIRST init Terraform so lockfile is correct
+      - name: Terraform Init (ECR only)
+        working-directory: infrastructure
+        run: tofu init
+
+      # 2️⃣ Create ONLY the ECR repository first
       - name: Create ECR before pushing image
         working-directory: infrastructure
         run: tofu apply -target=aws_ecr_repository.jwt_validator -auto-approve
@@ -50,6 +55,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      # 3️⃣ Build and push container image
       - name: Build and Push Docker Image
         run: |
           IMAGE="${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest"
@@ -62,12 +68,12 @@ jobs:
 
           echo "IMAGE_URL=$IMAGE" >> $GITHUB_ENV
 
-      # Write dynamic image into Terraform variables
+      # 4️⃣ Write dynamic image URL into TF vars
       - name: Write image URL to TF vars
         run: |
           echo "image_url=\"${IMAGE_URL}\"" > infrastructure/auto.tfvars
 
-      # Terraform init + plan + apply
+      # 5️⃣ Deploy full infrastructure
       - name: Terraform Init
         working-directory: infrastructure
         run: tofu init
